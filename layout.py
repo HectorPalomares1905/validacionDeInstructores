@@ -45,8 +45,14 @@ def get_layout():
             
             html.Div(id='output-mensaje', style={'display': 'none'}),
             
+            html.Button(
+                '📥 DESCARGAR ZIP', 
+                id='btn-descargar', 
+                n_clicks=0,
+                style={'display': 'none'}
+            ),
+            
             dcc.Download(id='download-zip')
             
         ], className='container')
     ])
-    
