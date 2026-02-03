@@ -43,16 +43,7 @@ def get_layout():
                 html.Button('Limpiar', id='btn-limpiar', className='btn-secondary', n_clicks=0)
             ], className='button-group'),
             
-            html.Div(id='output-mensaje', style={'display': 'none'}),
-            
-            html.Button(
-                '📥 DESCARGAR ZIP', 
-                id='btn-descargar', 
-                n_clicks=0,
-                style={'display': 'none'}
-            ),
-            
-            dcc.Download(id='download-zip')
+            html.Div(id='output-mensaje', style={'display': 'none'})
             
         ], className='container')
     ])
