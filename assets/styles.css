@@ -1,0 +1,234 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #3d5a96 0%, #e8755c 50%, #d05a7e 100%);
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    width: 100%;
+}
+
+/* Título principal */
+h1 {
+    color: #3d5a96;
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Grupos de input */
+.input-group {
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #3d5a96;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Campos de entrada */
+.input-field {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #3d5a96;
+    box-shadow: 0 0 0 3px rgba(61, 90, 150, 0.1);
+}
+
+/* Botón primario */
+.btn-primary {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #3d5a96 0%, #3d5a96 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+    box-shadow: 0 3px 10px rgba(61, 90, 150, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2f4679 0%, #2f4679 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(61, 90, 150, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Botón secundario */
+.btn-secondary {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #d05a7e 0%, #e8755c 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+    box-shadow: 0 3px 10px rgba(208, 90, 126, 0.3);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #b84d6b 0%, #d16549 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(208, 90, 126, 0.4);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Grupo de botones */
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Mensaje de salida */
+#output-mensaje {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    border-left: 4px solid #3d5a96;
+}
+
+#output-mensaje h3 {
+    color: #3d5a96;
+    margin-bottom: 10px;
+}
+
+#output-mensaje p {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    .container {
+        padding: 30px 20px;
+    }
+    
+    h1 {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+    
+    .input-field {
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 12px;
+        font-size: 15px;
+    }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px 15px;
+        border-radius: 10px;
+    }
+    
+    h1 {
+        font-size: 20px;
+        margin-bottom: 25px;
+    }
+    
+    .input-group {
+        margin-bottom: 20px;
+    }
+    
+    .input-group label {
+        font-size: 13px;
+    }
+    
+    .input-field {
+        padding: 10px 12px;
+        font-size: 16px;
+    }
+    
+    .button-group {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        padding: 12px;
+        font-size: 14px;
+        margin-top: 0;
+    }
+}
+
+/* Orientación landscape en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Modo impresión */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .btn-primary, .btn-secondary {
+        display: none;
+    }
+}
