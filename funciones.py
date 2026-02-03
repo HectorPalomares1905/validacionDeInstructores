@@ -51,7 +51,7 @@ def procesar_pdfs(df, carpeta_pdfs, ruta_sello, carpeta_salida):
     return archivos
 
 def crear_zip(carpeta_pdfs, ruta_zip):
-    with zipfile.ZipFile(ruta_zip, 'w') as zipf:
+    with zipfile.ZipFile(ruta_zip, 'w', zipfile.ZIP_DEFLATED) as zipf:
         for archivo in os.listdir(carpeta_pdfs):
             if archivo.endswith('.pdf'):
                 ruta_completa = os.path.join(carpeta_pdfs, archivo)
