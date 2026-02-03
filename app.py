@@ -96,14 +96,26 @@ def generar_pdfs(n_clicks):
         ruta_zip = os.path.join(temp_dir, "PDFs_Sellados.zip")
         crear_zip(carpeta_salida, ruta_zip)
         
+        # Leer el archivo ZIP en memoria
+        with open(ruta_zip, 'rb') as f:
+            zip_bytes = f.read()
+        
+        # Codificar en base64 para la descarga
+        zip_base64 = base64.b64encode(zip_bytes).decode()
+        
         return html.Div([
             html.H3("✅ PROCESO COMPLETADO", style={'color': 'green', 'margin-bottom': '10px'}),
             html.P(f"Total de archivos procesados: {len(archivos)}", style={'margin': '5px 0', 'color': '#555'}),
             html.P("🎉 La descarga comenzará automáticamente", style={'margin': '5px 0', 'color': '#2ecc71', 'font-weight': 'bold'})
-        ]), estilo_visible, dcc.send_file(ruta_zip)
+        ]), estilo_visible, dict(content=zip_base64, filename="PDFs_Sellados.zip", base64=True)
         
     except Exception as e:
-        return html.Div(f"❌ Error: {str(e)}", style={'color': 'red'}), estilo_visible, None
+        import traceback
+        error_completo = traceback.format_exc()
+        return html.Div([
+            html.P(f"❌ Error: {str(e)}", style={'color': 'red', 'font-weight': 'bold'}),
+            html.Pre(error_completo, style={'background': '#f8f8f8', 'padding': '10px', 'border-radius': '4px', 'font-size': '0.8em', 'overflow': 'auto'})
+        ]), estilo_visible, None
 
 @app.callback(
     [Output('output-mensaje', 'children', allow_duplicate=True),
