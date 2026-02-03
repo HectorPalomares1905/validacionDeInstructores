@@ -71,15 +71,17 @@ def guardar_archivos(list_of_contents, list_of_names):
 @app.callback(
     [Output('output-mensaje', 'children'),
      Output('output-mensaje', 'style'),
-     Output('download-zip', 'data')],
+     Output('btn-descargar', 'style')],
     Input('btn-generar', 'n_clicks'),
     prevent_initial_call=True
 )
 def generar_pdfs(n_clicks):
     estilo_visible = {'display': 'block', 'margin-top': '30px', 'padding': '20px', 'border-radius': '6px', 'background': '#ecf0f1'}
+    estilo_boton_visible = {'display': 'block', 'margin': '20px auto', 'padding': '12px 30px', 'background': '#27ae60', 'color': 'white', 'border': 'none', 'border-radius': '6px', 'font-size': '16px', 'cursor': 'pointer', 'font-weight': 'bold'}
+    estilo_boton_oculto = {'display': 'none'}
     
     if 'temp_dir' not in archivos_subidos:
-        return html.Div("❌ Primero debes subir los archivos", style={'color': 'red'}), estilo_visible, None
+        return html.Div("❌ Primero debes subir los archivos", style={'color': 'red'}), estilo_visible, estilo_boton_oculto
     
     try:
         temp_dir = archivos_subidos['temp_dir']
@@ -96,16 +98,14 @@ def generar_pdfs(n_clicks):
         ruta_zip = os.path.join(temp_dir, "PDFs_Sellados.zip")
         crear_zip(carpeta_salida, ruta_zip)
         
-        with open(ruta_zip, 'rb') as f:
-            zip_bytes = f.read()
-        
-        zip_base64 = base64.b64encode(zip_bytes).decode()
+        archivos_subidos['zip_path'] = ruta_zip
         
         return html.Div([
             html.H3("✅ PROCESO COMPLETADO", style={'color': 'green', 'margin-bottom': '10px'}),
             html.P(f"Total de archivos procesados: {len(archivos)}", style={'margin': '5px 0', 'color': '#555'}),
-            html.P("🎉 La descarga comenzará automáticamente", style={'margin': '5px 0', 'color': '#2ecc71', 'font-weight': 'bold'})
-        ]), estilo_visible, dict(content=zip_base64, filename="PDFs_Sellados.zip", base64=True)
+            html.P("✅ Los archivos están listos para descargar", style={'margin': '5px 0', 'color': '#2ecc71', 'font-weight': 'bold'}),
+            html.P("👇 Presiona el botón verde de abajo para descargar", style={'margin': '10px 0', 'color': '#555', 'font-size': '0.9em'})
+        ]), estilo_visible, estilo_boton_visible
         
     except Exception as e:
         import traceback
@@ -118,13 +118,43 @@ def generar_pdfs(n_clicks):
                 'border-radius': '4px', 
                 'font-size': '0.75em', 
                 'overflow': 'auto',
-                'max-height': '200px'
+                'max-height': '300px'
             })
-        ]), estilo_visible, None
+        ]), estilo_visible, estilo_boton_oculto
+
+@app.callback(
+    Output('download-zip', 'data'),
+    Input('btn-descargar', 'n_clicks'),
+    prevent_initial_call=True
+)
+def descargar_zip(n_clicks):
+    if 'zip_path' not in archivos_subidos:
+        return None
+    
+    try:
+        ruta_zip = archivos_subidos['zip_path']
+        
+        if not os.path.exists(ruta_zip):
+            return None
+        
+        with open(ruta_zip, 'rb') as f:
+            zip_bytes = f.read()
+        
+        zip_base64 = base64.b64encode(zip_bytes).decode()
+        
+        return dict(
+            content=zip_base64,
+            filename="PDFs_Sellados.zip",
+            base64=True
+        )
+    except Exception as e:
+        print(f"Error en descarga: {str(e)}")
+        return None
 
 @app.callback(
     [Output('output-mensaje', 'children', allow_duplicate=True),
-     Output('output-mensaje', 'style', allow_duplicate=True)],
+     Output('output-mensaje', 'style', allow_duplicate=True),
+     Output('btn-descargar', 'style', allow_duplicate=True)],
     Input('btn-limpiar', 'n_clicks'),
     prevent_initial_call=True
 )
@@ -133,7 +163,7 @@ def limpiar(n_clicks):
         shutil.rmtree(archivos_subidos['temp_dir'], ignore_errors=True)
         archivos_subidos.clear()
     
-    return "", {'display': 'none'}
+    return "", {'display': 'none'}, {'display': 'none'}
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8050))
