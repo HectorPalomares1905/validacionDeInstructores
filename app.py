@@ -96,11 +96,9 @@ def generar_pdfs(n_clicks):
         ruta_zip = os.path.join(temp_dir, "PDFs_Sellados.zip")
         crear_zip(carpeta_salida, ruta_zip)
         
-        # Leer el archivo ZIP en memoria
         with open(ruta_zip, 'rb') as f:
             zip_bytes = f.read()
         
-        # Codificar en base64 para la descarga
         zip_base64 = base64.b64encode(zip_bytes).decode()
         
         return html.Div([
@@ -111,10 +109,17 @@ def generar_pdfs(n_clicks):
         
     except Exception as e:
         import traceback
-        error_completo = traceback.format_exc()
+        error_detallado = traceback.format_exc()
         return html.Div([
             html.P(f"❌ Error: {str(e)}", style={'color': 'red', 'font-weight': 'bold'}),
-            html.Pre(error_completo, style={'background': '#f8f8f8', 'padding': '10px', 'border-radius': '4px', 'font-size': '0.8em', 'overflow': 'auto'})
+            html.Pre(error_detallado, style={
+                'background': '#f8f8f8', 
+                'padding': '10px', 
+                'border-radius': '4px', 
+                'font-size': '0.75em', 
+                'overflow': 'auto',
+                'max-height': '200px'
+            })
         ]), estilo_visible, None
 
 @app.callback(
